@@ -1,16 +1,32 @@
+import React from "react";
 import styles from "./app.module.css";
-import { data } from "../../utils/data";
+import AppHeader from "../app-header/app-header";
+import Main from "../main/main"
+import ErrorBoundary from "../errorboundary/error-boundary";
+import getIngredientsData from "../../utils/burger-api";
+export const isActive = true;
 
 function App() {
+  const [data, setData] = React.useState({
+    ingredientsData: null,
+    isLoading: true,
+    isError: false,
+    errorType: ''
+  })
+
+  React.useEffect((data) => {
+    getIngredientsData(data, setData);
+  }, [])
+
   return (
+    <ErrorBoundary>
     <div className={styles.app}>
-      <pre style={{
-      	margin: "auto",
-      	fontSize: "1.5rem"
-      }}>
-      	Измените src/components/app/app.jsx и сохраните для обновления.
-      </pre>
+      <AppHeader />
+      {!data.isLoading && !data.isError && <Main ingredients={data.ingredientsData} />}
+      {data.isLoading && !data.isError && <p className={`text text_type_main-large ${styles.loading}`}>Данные загружаются</p>}
+      {data.isError && <p className={`text text_type_main-large ${styles.loading}`}>{`Ошибка сервера: ${data.errorType}`}</p>}
     </div>
+    </ErrorBoundary>
   );
 }
 

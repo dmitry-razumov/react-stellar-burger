@@ -1,3 +1,6 @@
+export const baseUrl = "https://norma.nomoreparties.space/api/ingredients";
+export const orderNumber = Number('034536');
+
 export const data = [
   {
      "_id":"60666c42cc7b410027a1a9b1",
