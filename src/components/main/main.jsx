@@ -4,8 +4,7 @@ import BurgerIngredients from './../burger-ingredients/burger-ingredients';
 import BurgerConstructor from './../burger-constructor/burger-constructor';
 
 const Main = (props) => {
-  const localIngredients = props.ingredients.slice();
-  localIngredients.forEach((item) => item.quantity = 0);
+  const localIngredients = props.ingredients.map((item) => ({...item, quantity: Math.ceil(Math.random() * 10), isLocked: false}))
   
   return (
     <div className = {styles.main}>
@@ -13,7 +12,7 @@ const Main = (props) => {
         <BurgerIngredients ingredients = {localIngredients} />
       </section>
       <section>
-        <BurgerConstructor ingredients = {localIngredients} />
+        <BurgerConstructor data = {localIngredients} />
       </section>
     </div>
   )

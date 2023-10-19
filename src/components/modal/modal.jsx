@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from "react"; 
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import styles from './modal.module.css';
@@ -8,17 +8,20 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components/di
 const modalRoot = document.getElementById('react-modals');
 
 const Modal = ({ title, children, closeModal }) => {
+
   const closeByEsc = (event) => {
     if (event.key === "Escape") {
       closeModal();
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.addEventListener("keydown", closeByEsc);
     return () => {
       document.removeEventListener("keydown", closeByEsc);
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   return ReactDOM.createPortal(

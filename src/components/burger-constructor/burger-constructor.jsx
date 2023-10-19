@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useMemo } from "react"; 
 import { dataPropType } from './../../utils/prop-types';
 import styles from './burger-constructor.module.css';
 import { orderNumber } from './../../utils/data';
@@ -8,14 +8,8 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from './../order-details/order-details';
 import Modal from './../modal/modal';
 
-function BurgerConstructor({ ingredients }) {
-  const product = [
-    {type:'bun', name: 'Булки'},
-    {type: 'sauce', name: 'Соусы'},
-    {type: 'main', name : 'Начинки'}
-  ]
-
-  const [modalActive, setModalActive] = React.useState(false);
+function BurgerConstructor({ data }) {
+  const [modalActive, setModalActive] = useState(false);
 
   const openModal = () => {
     setModalActive(true);
@@ -24,60 +18,58 @@ function BurgerConstructor({ ingredients }) {
     setModalActive(false);
   };
 
-  const bunFirst = ingredients.findIndex(item => item.type === product[0].type && item.quantity !== 0);
-  const bunAny = ingredients.findIndex(item => item.type === product[0].type);
-  const bunIndex = bunFirst === -1 ? bunAny : bunFirst;
-  ingredients[bunIndex].quantity = 2;
-  
-  const totalPrice = ingredients.map((item) => item.price * item.quantity).reduce((acc, item) => acc + item, 0);
-
-  function ShowCreateBurger({ item, kind, lock }) {
-    const newtext = (kind === "top") ? [item.name, " (верх)"].join('') :
-      (kind === "bottom") ? [item.name, " (низ)"].join('') : item.name;
-    return (
-      <ConstructorElement
-        type={kind}
-        isLocked={lock}
-        text={newtext}
-        price={item.price}
-        thumbnail={item.image}
-      />
-    )
-  }
-
-  function ShowItem({ item, kind, lock}) {
-    return (
-      <section className={styles.draggable}>
-        {!lock && < DragIcon />}
-        <ShowCreateBurger item={item} kind={kind} lock={lock} />
-      </section>
-    );
-  };
+  const { bun, ingredients } = useMemo(() => {
+    return {
+      bun: data.find(item => item.type === 'bun'),
+      ingredients: data.filter(item => item.type !== 'bun'),
+    };
+  }, [data]);
 
   return (
-    <section className={styles.container}>      
-      <section className={styles.first}> {
-        <ShowItem key={ingredients[bunIndex]._id} item={ingredients[bunIndex]} kind="top" lock={true} />
-      }
+      <section className={styles.container}>      
+      <section className={styles.first}> 
+        <section className={styles.draggable}>
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={`${bun.name} (верх)`}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        </section>
       </section>
       <section className={styles.scrolbarList}>
         <ul className={styles.items}>
           <li className={styles.item}>
             {ingredients.map(item => (
-              (item.type !== product[0].type) && 
-              // (item.quantity !== 0) &&
-              <ShowItem key={item._id} item={item} num={item.quantity} lock={false} />
+              <section className={styles.draggable} key={item._id}>
+                {!item.isLocked && < DragIcon />}
+                <ConstructorElement
+                  type={item.type}
+                  isLocked={item.isLocked}
+                  text={item.name}
+                  price={item.price}
+                  thumbnail={item.image}
+                />
+              </section>
             ))}
           </li>
         </ul>
       </section>  
-      <section className={styles.last}> {
-        <ShowItem key={ingredients[bunIndex]._id} item={ingredients[bunIndex]} kind="bottom" lock={true} />
-      }
+      <section className={styles.last}>
+        <section className={styles.draggable}>
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={`${bun.name} (низ)`}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        </section>
       </section>
       <section className={styles.info}>
         <div className={styles.price}>
-          <p className={styles.value}>{totalPrice}</p>
+          <p className={styles.value}>{ ingredients.reduce((acc, item) => acc + item.price, 0) + bun.price * 2 }</p>
           <div className={styles.icon}><CurrencyIcon /></div>
         </div>
         <Button htmlType="button" type="primary" size="large" onClick={openModal}>
@@ -95,7 +87,7 @@ function BurgerConstructor({ ingredients }) {
 };
 
 BurgerConstructor.propTypes = {
-  ingredients: dataPropType.isRequired
+  data: dataPropType.isRequired
 };
 
 export default BurgerConstructor;

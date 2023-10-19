@@ -4,7 +4,7 @@ import { Logo } from '@ya.praktikum/react-developer-burger-ui-components'
 import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
-import { isActive } from '../app/app';
+const isActive = true;
 
 function AppHeader() {
   return (

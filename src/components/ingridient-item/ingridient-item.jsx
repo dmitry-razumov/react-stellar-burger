@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from "react"; 
 import PropTypes from 'prop-types';
 import { ingredientPropType } from './../../utils/prop-types';
 import styles from './ingridient-item.module.css';
@@ -8,7 +8,7 @@ import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const IngridientItem = ({item, children}) => {
-  const [modalActive, setModalActive] = React.useState(false);
+  const [modalActive, setModalActive] = useState(false);
 
   const openModal = () => {
     setModalActive(true);
