@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+  
+.title {
+  margin: 0;
+  width: 600px;
+  height: 40px;
+  padding: 40px 0 0;
+  composes: text_type_main-large from global;
+}
+  
+.tab {
+  padding: 20px 0 0;
+  display: flex;
+}
+  
+.scrollbar {
+  composes: custom-scroll from global;
+  max-height: 65vh;
+  overflow: auto;
+}

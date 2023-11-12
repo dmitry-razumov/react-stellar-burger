@@ -1,0 +1,41 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  padding: 40px 40px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;  
+  border-radius: 40px;  
+  transform: translate(-50%, -50%);
+  background-color: #1C1C21;
+  z-index: 3;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 36px;
+  width: 640px;
+  height: 64px;
+}
+
+.text {
+  margin: 0;
+  padding: 0;
+  composes: text_type_main-large from global;
+}
+
+.close {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.close svg {
+  width: 100%;
+  height: auto;
+}

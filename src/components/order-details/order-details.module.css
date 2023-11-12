@@ -1,0 +1,33 @@
+.details {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 520px;
+}
+
+.text {
+  composes: text from "./../modal/modal.module.css";
+  composes: text_type_digits-large from global;
+}
+
+.subtext1 {
+  margin: 32px 0 0;
+  composes: text_type_main-medium from global;
+}
+
+.img {
+    margin: 60px 0;
+}
+
+.subtext2 {
+    composes: subtext1;
+    composes: text_type_main-small from global;
+    margin: 0;
+}
+
+.subtext3 {
+    composes: subtext2;
+    composes: text_type_main-small text_color_inactive from global;
+    margin: 8px 0 60px;
+}
