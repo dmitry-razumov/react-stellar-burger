@@ -1,0 +1,14 @@
+.headline {
+  margin: 0;
+  padding: 40px 0 24px;
+  height: 30px;
+  composes: text_type_main-medium from global;
+}
+  
+.grid {
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 24px;
+  row-gap: 32px;
+}

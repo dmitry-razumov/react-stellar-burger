@@ -1,93 +1,131 @@
-import { useState, useMemo } from "react"; 
-import { dataPropType } from './../../utils/prop-types';
 import styles from './burger-constructor.module.css';
-import { orderNumber } from './../../utils/data';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
+import { CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from './../order-details/order-details';
 import Modal from './../modal/modal';
+import { BurgerItem } from "../burger-item/burger-item";
+import { addBun, addIngredient, sortIngredients } from '../../services/actions/burger';
+import { makeOrder, clearOrder } from '../../services/actions/order';
+import { useCallback, useMemo } from 'react'; 
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
 
-function BurgerConstructor({ data }) {
-  const [modalActive, setModalActive] = useState(false);
-
-  const openModal = () => {
-    setModalActive(true);
-  };
+function BurgerConstructor() {
+  const { ingredients } = useSelector(store => store.burger);
+  const { bun } = useSelector(store => store.burger);
+  const { order } = useSelector(store => store.order);
+  
   const closeModal = () => {
-    setModalActive(false);
+    dispatch(clearOrder());
   };
 
-  const { bun, ingredients } = useMemo(() => {
-    return {
-      bun: data.find(item => item.type === 'bun'),
-      ingredients: data.filter(item => item.type !== 'bun'),
-    };
-  }, [data]);
+  const dispatch = useDispatch();
+
+  const [{isOver}, dropRef] = useDrop({
+    accept: 'ingredient',
+    drop({item}) {
+      if (item.type === 'bun') {
+        dispatch(addBun(item))
+      } else {
+        dispatch(addIngredient(item))
+      }
+    },
+    collect: monitor => ({
+      isOver: monitor.isOver()
+    })
+  })
+
+  const calcPrice = useMemo(() => {
+    return ingredients.length && bun &&
+      ingredients.reduce((acc, item) => acc + item.price, 0) + bun.price * 2;
+  }, [ingredients, bun]);
+  
+  const onOrder = () => {
+    if (ingredients.length && bun) {
+      dispatch(makeOrder(
+        [bun._id, ...ingredients.map(item => item._id), bun._id]
+      ))
+    }
+  }
+
+  const moveItem = useCallback((dragIndex, hoverIndex) => {
+    const dragItem = ingredients[dragIndex];
+    const hoverItem = ingredients[hoverIndex];
+    const newIngredients = [...ingredients];
+    newIngredients[dragIndex] = hoverItem;
+    newIngredients[hoverIndex] = dragItem;
+    dispatch(sortIngredients(newIngredients));
+  }, [dispatch, ingredients])
 
   return (
-      <section className={styles.container}>      
-      <section className={styles.first}> 
-        <section className={styles.draggable}>
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={`${bun.name} (верх)`}
-            price={bun.price}
-            thumbnail={bun.image}
-          />
+     <section ref={dropRef} className={isOver ? `${styles.container} ${styles.borderOver}` : `${styles.container}`}>      
+      { bun ?
+        <section className={styles.first}> 
+          <section className={styles.draggable}>
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={`${bun.name} (верх)`}
+              price={bun.price}
+              thumbnail={bun.image}
+            />
+          </section>
         </section>
-      </section>
-      <section className={styles.scrolbarList}>
-        <ul className={styles.items}>
-          <li className={styles.item}>
-            {ingredients.map(item => (
-              <section className={styles.draggable} key={item._id}>
-                {!item.isLocked && < DragIcon />}
-                <ConstructorElement
-                  type={item.type}
-                  isLocked={item.isLocked}
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                />
-              </section>
-            ))}
-          </li>
-        </ul>
-      </section>  
-      <section className={styles.last}>
-        <section className={styles.draggable}>
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={`${bun.name} (низ)`}
-            price={bun.price}
-            thumbnail={bun.image}
-          />
+        :
+        <section>
+          <h2 className={`${styles.addItem}`}>Добавь булку</h2>
         </section>
-      </section>
+      }
+      {ingredients.length > 0 ?
+        <section className={styles.scrollbarList}>
+          <ul className={styles.items}>
+             {ingredients.map((item, index) => {
+                return <BurgerItem key={index} item={item} index={index} moveItem={moveItem}/>
+                })
+              }
+          </ul>
+        </section>
+        :
+        <section>
+          <h2 className={`${styles.addItem}`}>Добавь ингредиенты</h2>
+        </section>
+      }
+      { bun ?
+        <section className={styles.last}>
+          <section className={styles.draggable}>
+           <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={`${bun.name} (низ)`}
+              price={bun.price}
+              thumbnail={bun.image}
+            />
+          </section>
+        </section>
+        :
+        <section>
+          <h2 className={`${styles.addItem}`}>Добавь булку</h2>
+        </section>
+      }
+      { bun && ingredients.length > 0 &&
       <section className={styles.info}>
         <div className={styles.price}>
-          <p className={styles.value}>{ ingredients.reduce((acc, item) => acc + item.price, 0) + bun.price * 2 }</p>
+          <p className={styles.value}>{calcPrice}</p>
           <div className={styles.icon}><CurrencyIcon /></div>
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={openModal}>
+        <Button htmlType="button" type="primary" size="large" onClick={onOrder}>
           Оформить заказ
         </Button>
       </section>
-
-      {modalActive &&
+      }
+      { order &&
         <Modal title='' closeModal={closeModal} >
-          <OrderDetails orderNumber={orderNumber} />
+          <OrderDetails />
         </Modal>
       }
     </section>
   );
-};
-
-BurgerConstructor.propTypes = {
-  data: dataPropType.isRequired
 };
 
 export default BurgerConstructor;
