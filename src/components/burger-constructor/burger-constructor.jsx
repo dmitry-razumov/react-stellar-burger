@@ -12,9 +12,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 
 function BurgerConstructor() {
-  const { ingredients } = useSelector(store => store.burger);
-  const { bun } = useSelector(store => store.burger);
-  const { order } = useSelector(store => store.order);
+  const ingredients = useSelector(store => store.burger.ingredients);
+  const bun = useSelector(store => store.burger.bun);
+  const order = useSelector(store => store.order.order);
   
   const closeModal = () => {
     dispatch(clearOrder());

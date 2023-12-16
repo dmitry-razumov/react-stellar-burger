@@ -13,21 +13,21 @@ function BurgerIngredients() {
   const [current, setCurrent] = useState('Булки');
 
   return (
-    <section className={styles.container}>
+    <div className={styles.container}>
       <h1 className={styles.title}>Соберите бургер</h1>
-      <section className={styles.tab}>
+      <div className={styles.tab}>
         { products.map((product, index) => (
           <Tab value={product.name} key={index} active={current === product.name} onClick={setCurrent} >
             {product.name}
           </Tab>
           ))}
-      </section>
-      <section className={styles.scrollbar}>
+      </div>
+      <div className={styles.scrollbar}>
         { products.map((product, index) => 
           (<ShowItems key={index} name={product.name} type={product.type} />))
         }
-      </section>
-    </section>
+      </div>
+    </div>
   )
 }
 

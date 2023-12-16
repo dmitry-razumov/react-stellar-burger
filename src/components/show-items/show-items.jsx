@@ -4,7 +4,7 @@ import IngredientItem from '../ingredient-item/ingredient-item';
 import { useSelector } from "react-redux";
 
 function ShowItems({ name, type }) {
-  const { ingredients } = useSelector(store => store.ingredients);
+  const ingredients = useSelector(store => store.ingredients.ingredients);
 
   return (
     <>
