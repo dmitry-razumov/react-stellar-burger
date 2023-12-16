@@ -6,9 +6,14 @@
   position: relative;
   gap: 16px;
   box-sizing: border-box;
+  border: 1px solid transparent;
 }
 
-.scrolbarList {
+.borderOver {
+  border-color: lightgreen;
+}
+
+.scrollbarList {
   position: relative;
   overflow: auto;
   composes: custom-scroll from global;
@@ -20,11 +25,8 @@
   margin: 0;
   padding: 0;
   list-style-type: none;  
-}
-.item {
-  display: flex;
   flex-direction: column;
-  gap: 16px;  
+  gap: 16px; 
 }
 
 .first {
@@ -41,13 +43,6 @@
   flex-direction: column;
   margin: 16px 0 0;
   align-items: flex-end;
-}
-
-.draggable {
- display: flex;
- flex-direction: row;
- column-gap: 8px;
- align-items: center;
 }
 
 .info {
@@ -79,4 +74,18 @@
 .icon svg {
   width: 100%;
   height: auto;
+}
+
+.addItem {
+  margin: 10px 0;
+  padding: 40px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #7B61FF;
+  composes: text_type_main-large from global;  
+  text-align: center;
+  flex-shrink: 0;
 }

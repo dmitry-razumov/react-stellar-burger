@@ -1,13 +1,13 @@
-import PropTypes from 'prop-types';
 import styles from './order-details.module.css';
 import imageDone from './../../images/done.png';
+import { useSelector } from 'react-redux';
 
-function OrderDetails({ orderNumber }) {
-  const order = orderNumber.toString().padStart(6, '0');
+function OrderDetails() {
+  const { order } = useSelector(store => store.order);
 
   return (
     <div className={styles.details}>
-      <p className={styles.text}>{order}</p>
+      <p className={styles.text}>{order.toString().padStart(6, '0')}</p>
       <p className={styles.subtext1}>идентификатор заказа</p>
       <img className={styles.img} src={imageDone} alt="Кнопка Ок"/>
       <p className={styles.subtext2}> Ваш заказ начали готовить</p>
@@ -15,9 +15,5 @@ function OrderDetails({ orderNumber }) {
     </div>    
   );
 }
-
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.number.isRequired
-};
 
 export default OrderDetails;
