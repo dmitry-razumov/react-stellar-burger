@@ -1,11 +1,30 @@
 .details {
+  margin: 140px 0 0;
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 640px;
+  height: 64px;
+  margin: 0;
+  padding: 0;
+  composes: text_type_main-large from global;
+}
+
+.title_modal {
   justify-content: flex-start;
 }
 
 .img {
-  padding: 0 20px;
+  display: flex;
+  padding: 0;
+  margin: 0 auto;
 }
 
 .name {
@@ -26,7 +45,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 20px;
 }
   

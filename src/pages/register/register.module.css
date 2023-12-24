@@ -1,0 +1,41 @@
+.register {
+  margin: 180px auto 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 480px;
+}
+
+.title {
+  margin: 0;
+  padding: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 24px 0 80px;
+  gap: 24px;
+  align-items: center;
+}
+
+.add_action {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  gap: 8px;
+  align-items: flex-start;
+  composes: text text_type_main-default from global;
+}
+
+.text {
+  margin: 0;
+  padding: 0;
+  color: #8585AD;
+}
+
+.link {
+  text-decoration: none;
+  color: #4C4CFF;
+}

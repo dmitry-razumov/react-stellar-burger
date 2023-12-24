@@ -1,7 +1,8 @@
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import ShowItems from '../show-items/show-items';
-import { useState } from "react"; 
+import { useState, useRef } from "react";
+import { Link } from 'react-router-dom';
 
 const products = [
   {type: 'bun', name: 'Булки'},
@@ -10,21 +11,23 @@ const products = [
 ]
 
 function BurgerIngredients() {
-  const [current, setCurrent] = useState('Булки');
+  const [visibleSection, setVisibleSection] = useState('bun');
+  const containerRef = useRef();
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={containerRef}>
       <h1 className={styles.title}>Соберите бургер</h1>
       <div className={styles.tab}>
         { products.map((product, index) => (
-          <Tab value={product.name} key={index} active={current === product.name} onClick={setCurrent} >
+          <Tab value={product.name} key={index} active={visibleSection === product.type} >
             {product.name}
           </Tab>
-          ))}
+          )
+        )}
       </div>
       <div className={styles.scrollbar}>
         { products.map((product, index) => 
-          (<ShowItems key={index} name={product.name} type={product.type} />))
+          (<ShowItems key={index} name={product.name} type={product.type} {...{setVisibleSection, containerRef}}/>))
         }
       </div>
     </div>

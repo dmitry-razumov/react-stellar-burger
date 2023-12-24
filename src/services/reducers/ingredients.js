@@ -1,9 +1,9 @@
 import {
     GET_INGREDIENTS_REQUEST,
     GET_INGREDIENTS_ERROR,
-    GET_INGREDIENTS_SUCCESS,
-    OPEN_INGREDIENT_DETAILS_MODAL,
-    CLOSE_INGREDIENT_DETAILS_MODAL
+    GET_INGREDIENTS_SUCCESS
+    // OPEN_INGREDIENT_DETAILS_MODAL,
+    // CLOSE_INGREDIENT_DETAILS_MODAL
 } from '../actions/ingredients';
 
 const initialState = {
@@ -34,16 +34,6 @@ export const ingredientsReducer = (state = initialState, action) => {
         ...state,
         ingredientsRequest: false,
         ingredientsFailed: true
-      }
-    case OPEN_INGREDIENT_DETAILS_MODAL:
-      return {
-        ...state,
-        ingredientDetails: action.ingredient
-      }
-    case CLOSE_INGREDIENT_DETAILS_MODAL:
-      return {
-        ...state,
-        ingredientDetails: null
       }
     default:
       return state

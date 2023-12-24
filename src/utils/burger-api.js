@@ -1,10 +1,6 @@
 import { BASE_URL } from "./data";
+import { checkResponse, fetchWithRefresh } from "./api";
 
-const checkResponse = (res) => {
-  return res.ok ? res.json() : res.json().then((err) => {
-        Promise.reject(`Код ошибки HTTP: ${res.status} Ошибка: ${err}`);
-        });
-}
 
 export const getIngredientsData = async () => {
   const res = await fetch(`${BASE_URL}ingredients`);
@@ -12,12 +8,15 @@ export const getIngredientsData = async () => {
 }
 
 export const makeOrderApi = async (order) => {
-  const res = await fetch(`${BASE_URL}orders`, {
+  const res = await fetchWithRefresh(`${BASE_URL}orders`, {
     method: 'POST',
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("accessToken")
+    },
     body: JSON.stringify({
       'ingredients': order,
     }),
   });
-  return await checkResponse(res);
+  return res;
 }

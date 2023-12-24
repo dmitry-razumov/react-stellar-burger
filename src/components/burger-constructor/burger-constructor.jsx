@@ -7,17 +7,22 @@ import Modal from './../modal/modal';
 import { BurgerItem } from "../burger-item/burger-item";
 import { addBun, addIngredient, sortIngredients } from '../../services/actions/burger';
 import { makeOrder, clearOrder } from '../../services/actions/order';
-import { useCallback, useMemo } from 'react'; 
+import { useCallback, useMemo, useState } from 'react'; 
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
+import { useNavigate } from 'react-router-dom';
 
 function BurgerConstructor() {
   const ingredients = useSelector(store => store.burger.ingredients);
   const bun = useSelector(store => store.burger.bun);
   const order = useSelector(store => store.order.order);
+  const user = useSelector(store => store.user.user);
+  const navigate = useNavigate();
+  const [beginMakeOrder, setBeginMakeOrder] = useState(false);
   
   const closeModal = () => {
     dispatch(clearOrder());
+    setBeginMakeOrder(false);
   };
 
   const dispatch = useDispatch();
@@ -42,10 +47,13 @@ function BurgerConstructor() {
   }, [ingredients, bun]);
   
   const onOrder = () => {
-    if (ingredients.length && bun) {
+    if (ingredients.length && bun && user) {
       dispatch(makeOrder(
         [bun._id, ...ingredients.map(item => item._id), bun._id]
       ))
+      setBeginMakeOrder(true);
+    } else {
+      navigate('/login')
     }
   }
 
@@ -61,8 +69,7 @@ function BurgerConstructor() {
   return (
      <section ref={dropRef} className={isOver ? `${styles.container} ${styles.borderOver}` : `${styles.container}`}>      
       { bun ?
-        <section className={styles.first}> 
-          <section className={styles.draggable}>
+        <div className={styles.first}> 
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -70,30 +77,28 @@ function BurgerConstructor() {
               price={bun.price}
               thumbnail={bun.image}
             />
-          </section>
-        </section>
+        </div>
         :
-        <section>
+        <div>
           <h2 className={`${styles.addItem}`}>Добавь булку</h2>
-        </section>
+        </div>
       }
       {ingredients.length > 0 ?
-        <section className={styles.scrollbarList}>
+        <div className={styles.scrollbarList}>
           <ul className={styles.items}>
              {ingredients.map((item, index) => {
                 return <BurgerItem key={index} item={item} index={index} moveItem={moveItem}/>
                 })
               }
           </ul>
-        </section>
+        </div>
         :
         <section>
           <h2 className={`${styles.addItem}`}>Добавь ингредиенты</h2>
         </section>
       }
       { bun ?
-        <section className={styles.last}>
-          <section className={styles.draggable}>
+        <div className={styles.last}>
            <ConstructorElement
               type="bottom"
               isLocked={true}
@@ -101,15 +106,14 @@ function BurgerConstructor() {
               price={bun.price}
               thumbnail={bun.image}
             />
-          </section>
-        </section>
+        </div>
         :
         <section>
           <h2 className={`${styles.addItem}`}>Добавь булку</h2>
         </section>
       }
       { bun && ingredients.length > 0 &&
-      <section className={styles.info}>
+      <div className={styles.info}>
         <div className={styles.price}>
           <p className={styles.value}>{calcPrice}</p>
           <div className={styles.icon}><CurrencyIcon /></div>
@@ -117,9 +121,9 @@ function BurgerConstructor() {
         <Button htmlType="button" type="primary" size="large" onClick={onOrder}>
           Оформить заказ
         </Button>
-      </section>
+      </div>
       }
-      { order &&
+      { (order || beginMakeOrder) &&
         <Modal title='' closeModal={closeModal} >
           <OrderDetails />
         </Modal>
