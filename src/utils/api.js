@@ -1,13 +1,13 @@
 import { BASE_URL } from "./data";
 
-export const checkResponse = (res) => {
-  return res.ok ? res.json() : res.json().then((err) => {
-        Promise.reject(`Код ошибки HTTP: ${res.status} Ошибка: ${err}`);
-        });
+export const request = async (endpoint, options) => {
+  return fetch(`${BASE_URL}${endpoint}`, options)
+    .then(res => res.json(), err => Promise.reject(err))
+    .catch(err => Promise.reject(err))
 }
 
 export const refreshToken = async () => {
-  return fetch(`${BASE_URL}/auth/token`, {
+  return request('auth/token', {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -15,26 +15,24 @@ export const refreshToken = async () => {
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  }).then(checkResponse);
+  })
 };
 
-export const fetchWithRefresh = async (url, options) => {
+export const requestWithRefresh = async (endpoint, options) => {
   try {
-    const res = await fetch(url, options);
-    return await checkResponse(res);
-  } catch (err) {
-    if (err.message === "jwt expired") {
+    const res = await request(endpoint, options);
+    if (res.message === "jwt expired") {
       const refreshData = await refreshToken();
       if (!refreshData.success) {
-        return Promise.reject(refreshData);
+        return refreshData;
       }
       localStorage.setItem("refreshToken", refreshData.refreshToken);
       localStorage.setItem("accessToken", refreshData.accessToken);
       options.headers.authorization = refreshData.accessToken;
-      const res = await fetch(url, options);
-      return await checkResponse(res);
-    } else {
-      return Promise.reject(err);
+      return await request(endpoint, options);
     }
+    return res;
+  } catch (err) {
+    return Promise.reject(err);
   }
 };

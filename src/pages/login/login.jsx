@@ -1,32 +1,32 @@
 import styles from './login.module.css'
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { login } from '../../services/actions/user';
+import { useForm } from '../../hooks/use-form';
 
 function Login() {
   const dispatch = useDispatch();
-  const [form, setValue] = useState({email:'', password:''});
-
-  const onChange = e => {
-    e.preventDefault();
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
+  const errorMessage = useSelector(store => store.user.errorLoginMessage);
+  const { values, handleChange } = useForm({email:'', password:''});
 
   const onSubmit = useCallback( 
     e => {
       e.preventDefault();
-      dispatch(login(form));
-    }, [dispatch, form]
+      dispatch(login(values));
+    }, [dispatch, values]
   );
 
 	return (
 		<div className={styles.login}>
       <h2 className={styles.title}>Вход</h2>
       <form className={styles.form} onSubmit={onSubmit}>
-        <EmailInput autoComplete='username' value={form.email} name='email' onChange={onChange}/>
-        <PasswordInput autoComplete='current-password' value={form.password} name='password' onChange={onChange}/>
+        <EmailInput autoComplete='username' value={values.email} name='email' onChange={handleChange}/>
+        <PasswordInput autoComplete='current-password' value={values.password} name='password' onChange={handleChange}/>
+        { errorMessage && (
+          <p className={styles.error}>{ errorMessage }</p>
+        )}
         <Button htmlType='submit' size='medium'>Войти</Button>
       </form>
       <div className={styles.add_action}>

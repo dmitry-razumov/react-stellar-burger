@@ -43,3 +43,8 @@
   text-decoration: none;
   color: #4C4CFF;
 }
+
+.error {
+  composes: text text_type_main-default from global;
+  color: #ff1919;
+}

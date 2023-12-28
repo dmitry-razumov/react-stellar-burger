@@ -1,19 +1,17 @@
-import { BASE_URL } from "./data";
-import { checkResponse, fetchWithRefresh } from "./api";
+import { request, requestWithRefresh } from "./api";
 
 export const getUser = async () => {
-  const res = await fetchWithRefresh(`${BASE_URL}auth/user`, {
+  return requestWithRefresh('auth/user', {
     method: 'GET',
     headers: { 
       "Content-Type": "application/json",
       Authorization: localStorage.getItem("accessToken")
     }
   });
-  return res;
 }
 
 export const login = async (form) => {
-  const res = await fetch(`${BASE_URL}auth/login`, {
+  return request('auth/login', {
     method: 'POST',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -21,22 +19,20 @@ export const login = async (form) => {
       'password': form.password,
     }),
   });
-  return await checkResponse(res);
 }
 
 export const logout = async () => {
-  const res = await fetch(`${BASE_URL}auth/logout`, {
+  return request('auth/logout', {
     method: 'POST',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
   });
-  return await checkResponse(res);
 }
 
 export const updateUser = async (form) => {
-  const res = await fetchWithRefresh(`${BASE_URL}auth/user`, {
+  return requestWithRefresh('auth/user', {
     method: 'PATCH',
     headers: { 
       "Content-Type": "application/json",
@@ -48,11 +44,10 @@ export const updateUser = async (form) => {
       'name': form.name
     }),
   });
-  return res;
 }
 
 export const registerUser = async (form) => {
-  const res = await fetch(`${BASE_URL}auth/register`, {
+  return request('auth/register', {
     method: 'POST',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -61,22 +56,20 @@ export const registerUser = async (form) => {
       'name': form.name
     }),
   });
-  return await checkResponse(res);
 }
 
-export const sendResetEmail = async (email) => {
-  const res = await fetch(`${BASE_URL}password-reset`, {
+export const sendResetEmail = async (form) => {
+  request('password-reset', {
     method: 'POST',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      'email': email,
+      'email': form.email,
     }),
   });
-  return await checkResponse(res);
 }
 
 export const resetPassword = async (form) => {
-  const res = await fetch(`${BASE_URL}password-reset/reset`, {
+  request('password-reset/reset', {
     method: 'POST',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -84,7 +77,6 @@ export const resetPassword = async (form) => {
       'token': form.code
     }),
   });
-  return await checkResponse(res);
 }
 
 export const api = {

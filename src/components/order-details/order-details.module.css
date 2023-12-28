@@ -46,17 +46,17 @@
 }
 
 .img {
-    margin: 60px auto;
+  margin: 60px auto;
 }
 
 .subtext2 {
-    composes: subtext1;
-    composes: text_type_main-small from global;
-    margin: 0;
+  composes: subtext1;
+  composes: text_type_main-small from global;
+  margin: 0;
 }
 
 .subtext3 {
-    composes: subtext2;
-    composes: text_type_main-small text_color_inactive from global;
-    margin: 8px 0 60px;
+  composes: subtext2;
+  composes: text_type_main-small text_color_inactive from global;
+  margin: 8px 0 60px;
 }

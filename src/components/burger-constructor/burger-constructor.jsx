@@ -49,8 +49,7 @@ function BurgerConstructor() {
   const onOrder = () => {
     if (ingredients.length && bun && user) {
       dispatch(makeOrder(
-        [bun._id, ...ingredients.map(item => item._id), bun._id]
-      ))
+        [bun._id, ...ingredients.map(item => item._id), bun._id]))
       setBeginMakeOrder(true);
     } else {
       navigate('/login')
@@ -87,7 +86,7 @@ function BurgerConstructor() {
         <div className={styles.scrollbarList}>
           <ul className={styles.items}>
              {ingredients.map((item, index) => {
-                return <BurgerItem key={index} item={item} index={index} moveItem={moveItem}/>
+                return <BurgerItem key={item.uuid} item={item} index={index} moveItem={moveItem}/>
                 })
               }
           </ul>

@@ -1,34 +1,33 @@
 import styles from './register.module.css'
 import { Button, EmailInput, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { registerUser } from '../../services/actions/user'
-
+import { useForm } from '../../hooks/use-form';
 
 function Register() {
   const dispatch = useDispatch();
-  const [form, setValue] = useState({ email:'', password: '', name: '' });
+  const { values, handleChange } = useForm({ email:'', password: '', name: '' });
+  const errorMessage = useSelector(store => store.user.errorRegisterMessage);
 
   const onSubmit = useCallback( 
     e => {
       e.preventDefault();
-      dispatch(registerUser(form));
-    }, [dispatch, form]
+      dispatch(registerUser(values));
+    }, [dispatch, values]
   );
-
-  const onChange = e => {
-    e.preventDefault();
-    setValue({ ...form, [e.target.name]: e.target.value });
-  };
 
   return (
 		<div className={styles.register}>
       <h2 className={styles.title}>Регистрация</h2>
       <form className={styles.form} onSubmit={onSubmit}>
-        <Input placeholder='Имя' value={form.name} name='name' onChange={onChange}/>
-        <EmailInput value={form.email} name='email' onChange={onChange}/>
-        <PasswordInput value={form.password} name='password' onChange={onChange}/>
+        <Input placeholder='Имя' value={values.name} name='name' onChange={handleChange}/>
+        <EmailInput value={values.email} name='email' onChange={handleChange}/>
+        <PasswordInput value={values.password} name='password' onChange={handleChange}/>
+        { errorMessage && (
+          <p className={styles.error}>{ errorMessage }</p>
+        )}
         <Button htmlType='submit' size='medium'>Зарегистрироваться</Button>
       </form>
       <div className={styles.add_action}>
