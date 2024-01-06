@@ -1,11 +1,20 @@
+import { useParams } from 'react-router-dom';
 import styles from './ingredient-details.module.css';
 import { useSelector } from 'react-redux';
 
-function IngredientDetails() {
-  const data = useSelector(store => store.ingredients.ingredientDetails);
+function IngredientDetails(props) {
+  const ingredients = useSelector(store => store.ingredients.ingredients);
+  const { ingredientId } = useParams();
+
+  if(!ingredients) {
+    return null;
+  }
+
+  const data = ingredients.find(item => item._id === ingredientId);
 
   return (
-    <div className={styles.details}>
+    <div className={ props?.isModal ? '' : `${styles.details}`}>
+      <p className={ `${styles.title} ${props?.isModal ? styles.title_modal : ''}`}>Детали ингредиента</p>
       <img className={styles.img} src={data.image_large} alt={data.name}/>
       <h2 className={styles.name}>{data.name}</h2>
       <ul className={styles.nutritionValues}>
@@ -27,7 +36,7 @@ function IngredientDetails() {
         </li>
       </ul>
     </div>
-  );
+  )
 }
 
 export default IngredientDetails;

@@ -1,0 +1,10 @@
+.orders {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.text {
+  composes: text_type_main-large text_color_inactive from global;
+}

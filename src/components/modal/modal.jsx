@@ -1,4 +1,4 @@
-import { useEffect } from "react"; 
+import { useEffect, cloneElement } from "react"; 
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import styles from './modal.module.css';
@@ -7,7 +7,7 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components/di
 
 const modalRoot = document.getElementById('react-modals');
 
-const Modal = ({ title, children, closeModal }) => {
+const Modal = ({ children, closeModal }) => {
 
   const closeByEsc = (event) => {
     if (event.key === "Escape") {
@@ -23,17 +23,14 @@ const Modal = ({ title, children, closeModal }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
-
+  
   return ReactDOM.createPortal(
     <>
       <div className={styles.modal} >
-        <div className={styles.title}>
-          <p className={styles.text}>{title}</p>
-          <div className={styles.close} onClick={closeModal}>
-            <CloseIcon type="primary"/>
-          </div>
+        <div className={styles.close} onClick={closeModal}>
+          <CloseIcon type="primary"/>
         </div>
-        {children}
+        {cloneElement(children, {isModal: true})}
       </div>
       <ModalOverlay closeModal={closeModal} />
     </>,
@@ -43,7 +40,6 @@ const Modal = ({ title, children, closeModal }) => {
 
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
-  title: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired
 };
 

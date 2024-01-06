@@ -3,12 +3,41 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 520px;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 640px;
+  height: 64px;
+  margin: 0;
+  padding: 0;
+  composes: text_type_main-large from global;
+}
+
+.title_modal {
+  justify-content: flex-start;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .text {
-  composes: text from "./../modal/modal.module.css";
+  margin: 0 auto;
+  padding: 0;
   composes: text_type_digits-large from global;
+}
+
+.waitText {
+  margin: 0 auto;
+  padding: 0;
+  composes: text_type_main-medium from global;
+
 }
 
 .subtext1 {
@@ -17,17 +46,17 @@
 }
 
 .img {
-    margin: 60px 0;
+  margin: 60px auto;
 }
 
 .subtext2 {
-    composes: subtext1;
-    composes: text_type_main-small from global;
-    margin: 0;
+  composes: subtext1;
+  composes: text_type_main-small from global;
+  margin: 0;
 }
 
 .subtext3 {
-    composes: subtext2;
-    composes: text_type_main-small text_color_inactive from global;
-    margin: 8px 0 60px;
+  composes: subtext2;
+  composes: text_type_main-small text_color_inactive from global;
+  margin: 8px 0 60px;
 }

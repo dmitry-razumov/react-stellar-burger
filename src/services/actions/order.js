@@ -1,4 +1,5 @@
 import { makeOrderApi } from '../../utils/burger-api';
+import { CLEAR_CONSTRUCTOR } from './burger'
 
 export const MAKE_ORDER_REQUEST = 'MAKE_ORDER_REQUEST';
 export const MAKE_ORDER_ERROR = 'MAKE_ORDER_ERROR';
@@ -23,6 +24,11 @@ export function makeOrder(order) {
           type: MAKE_ORDER_ERROR
         })
       }})
+    .then(() => {
+      dispatch({
+        type: CLEAR_CONSTRUCTOR
+      })
+    })
     .catch(() => {
       dispatch({
         type: MAKE_ORDER_ERROR

@@ -4,6 +4,7 @@ export const ADD_INGREDIENTS = 'ADD_INGREDIENTS';
 export const ADD_BUN = 'ADD_BUN';
 export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
 export const SORT_INGREDIENTS = 'SORTED_INGREDIENTS';
+export const CLEAR_CONSTRUCTOR= 'CLEAR_CONSTRUCTOR';
 
 export function addBun(item) {
   return function(dispatch) {
