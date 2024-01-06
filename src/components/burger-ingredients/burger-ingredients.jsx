@@ -17,16 +17,16 @@ function BurgerIngredients() {
     <div className={styles.container} ref={containerRef}>
       <h1 className={styles.title}>Соберите бургер</h1>
       <div className={styles.tab}>
-        { products.map((product, index) => (
-          <Tab value={product.name} key={index} active={visibleSection === product.type} >
+        { products.map((product) => (
+          <Tab value={product.name} key={product.name} active={visibleSection === product.type} >
             {product.name}
           </Tab>
           )
         )}
       </div>
       <div className={styles.scrollbar}>
-        { products.map((product, index) => 
-          (<ShowItems key={index} name={product.name} type={product.type} {...{setVisibleSection, containerRef}}/>))
+        { products.map((product) => 
+          (<ShowItems key={product.type} name={product.name} type={product.type} {...{setVisibleSection, containerRef}}/>))
         }
       </div>
     </div>
