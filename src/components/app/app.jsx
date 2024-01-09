@@ -17,7 +17,9 @@ import ResetPassword from '../../pages/reset-password/reset-password';
 import Profile from '../../pages/profile/profile';
 import OrdersHistory from '../../pages/orders-history/orders-history';
 import ProfileEdit from '../../pages/profile-edit/profile-edit';
+import OrderFeed from '../../pages/order-feed/order-feed';
 import Page404 from '../../pages/page404/page404'
+import OrderInfo from '../order-info/order-info';
 
 function App() {
   const dispatch = useDispatch();
@@ -54,6 +56,9 @@ function App() {
             <Route path='*' element={<Page404 />} />
           </Route>
           <Route path='/ingredients/:ingredientId' element={<IngredientDetails />} />
+          <Route path='/feed' element={<OrderFeed />} />
+          <Route path='/feed/:number' element={<OrderInfo />} />
+          <Route path='/profile/orders/:number' element={<OnlyAuth component={<OrderInfo />} />}/>
           <Route path='*' element={<Page404 />} />
         </Routes>
 
@@ -66,6 +71,30 @@ function App() {
                   <IngredientDetails />
                 </Modal>
               }
+            />
+          </Routes>
+        )}
+        { background && (
+          <Routes>
+            <Route
+              path='/feed/:number'
+              element={
+                <Modal closeModal={handleModalClose}>
+                  <OrderInfo />
+                </Modal>
+              }
+            />
+          </Routes>
+        )}
+        { background && (
+          <Routes>
+            <Route
+              path='/profile/orders/:number'
+              element={ <OnlyAuth component={
+                <Modal closeModal={handleModalClose}>
+                  <OrderInfo />
+                </Modal>
+              } />}
             />
           </Routes>
         )}

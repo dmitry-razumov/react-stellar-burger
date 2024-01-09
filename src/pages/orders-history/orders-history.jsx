@@ -1,10 +1,31 @@
+import { Link, useLocation } from 'react-router-dom';
 import styles from './orders-history.module.css'
+import { useDispatch, useSelector } from 'react-redux';
+import OrderCard from '../../components/order-card/order-card';
+import { useEffect } from 'react';
+import { startWsConnect, stopWsConnect } from '../../services/actions/wsActions';
 
 function OrdersHistory() {
+  const orders = useSelector(store => store.wsStore.orders);
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  useEffect(() => {
+    dispatch(startWsConnect(''));
+    return () => {
+      dispatch(stopWsConnect());
+    }
+  }, [dispatch]);
+
   return (
     <div className={styles.orders}>
-      <p className={styles.text}>Здесь будет история заказов</p>
-      <p className={styles.text}>... в разработке</p>
+      {orders?.map(order => (
+        <Link key={order._id} to={`${order.number}`}
+          state={{ background:location }} className={styles.link}>
+          <OrderCard key={order._id} order={order} />
+        </Link>
+        )).reverse()
+      }
     </div>
   )
 }

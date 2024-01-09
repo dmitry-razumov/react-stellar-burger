@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 function IngredientDetails(props) {
   const ingredients = useSelector(store => store.ingredients.ingredients);
   const { ingredientId } = useParams();
-
+  
   if(!ingredients) {
     return null;
   }
@@ -13,7 +13,7 @@ function IngredientDetails(props) {
   const data = ingredients.find(item => item._id === ingredientId);
 
   return (
-    <div className={ props?.isModal ? '' : `${styles.details}`}>
+    <div className={ `${styles.details} ${props?.isModal ? styles.details_modal : ''}`}>
       <p className={ `${styles.title} ${props?.isModal ? styles.title_modal : ''}`}>Детали ингредиента</p>
       <img className={styles.img} src={data.image_large} alt={data.name}/>
       <h2 className={styles.name}>{data.name}</h2>

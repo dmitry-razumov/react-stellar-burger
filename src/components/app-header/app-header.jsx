@@ -16,9 +16,9 @@ function AppHeader() {
             <BurgerIcon type={location.pathname === '/' ? 'primary' : 'secondary'}/>
             <p className={location.pathname === '/' ? styles.active : ''}>Конструктор</p>
           </Link>
-          <Link to='/orders' className={styles.link}>
-            <ListIcon type={location.pathname === '/orders' ? 'primary' : 'secondary'}/>
-            <p className={location.pathname === '/orders' ? styles.active : ''}>Лента заказов</p>
+          <Link to='/feed' className={styles.link}>
+            <ListIcon type={location.pathname === '/feed' ? 'primary' : 'secondary'}/>
+            <p className={location.pathname === '/feed' ? styles.active : ''}>Лента заказов</p>
           </Link>
         </div>
         <Link to='/' className={styles.logo}>
