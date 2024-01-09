@@ -18,10 +18,10 @@ export const wsActions = {
   onMessage: WS_GET_MESSAGE
 };
 
-export const startWsConnect = (url) => {
+export const startWsConnect = (endpoint) => {
   return {
     type: WS_CONNECTION_START,
-    payload: url
+    payload: endpoint
   }
 }
 

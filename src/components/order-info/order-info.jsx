@@ -35,7 +35,7 @@ function OrderInfo(props) {
       } else {
         dispatch(getOrder(number));
         if (!orders) {
-          dispatch(startWsConnect(''));
+          dispatch(startWsConnect(`?token=${localStorage.getItem("accessToken").split('Bearer ')[1]}`));
           return () => {
             dispatch(stopWsConnect());
           }

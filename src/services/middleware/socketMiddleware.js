@@ -3,17 +3,12 @@ export const socketMiddleware = (wsUrl, wsActions) => {
     let socket = null;
 
     return next => action => {
-      const { dispatch, getState } = store;
+      const { dispatch } = store;
       const { type, payload } = action;
       const { wsInit, wsSendMessage, wsStop, onOpen, onClose, onError, onMessage } = wsActions;
-      const { user } = getState().user;
       
       if (type === wsInit) {
-        if (payload === '/all') { 
-          socket = new WebSocket(`${wsUrl}${payload}`)
-        } else if (user) {
-          socket = new WebSocket(`${wsUrl}${payload}?token=${localStorage.getItem("accessToken").split('Bearer ')[1]}`);
-        }
+        socket = new WebSocket(`${wsUrl}${payload}`)
       }
 
       if (socket) {
