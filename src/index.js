@@ -8,13 +8,15 @@ import { compose, legacy_createStore as createStore, applyMiddleware } from 'red
 import { rootReducer } from './services/reducers';
 import thunk from 'redux-thunk';
 import { BrowserRouter } from "react-router-dom";
+import { socketMiddleware } from "./services/middleware/socketMiddleware";
+import { wsActions, wsUrl } from "./services/actions/wsActions";
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl, wsActions)));
 
 const store = createStore(rootReducer, enhancer);
 

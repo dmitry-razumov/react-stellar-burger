@@ -16,3 +16,13 @@ export const makeOrderApi = async (order) => {
       }),
     });
 }
+
+export const getOrderApi = async (number) => {
+  return requestWithRefresh(`orders/${number}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("accessToken")
+      },
+    });
+}

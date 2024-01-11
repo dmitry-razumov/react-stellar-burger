@@ -1,0 +1,104 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0;
+  padding: 24px;
+  background-color: #1C1C21;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+  color: #F2F2F3;
+}
+
+.orderId {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.id {
+  margin: 0;
+  composes: text_type_digits-default from global;
+}
+
+.timestamp {
+  margin: 0;
+  composes: text_type_main-default text_color_inactive from global;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.burgerName {
+  margin: 0;
+  composes: text_type_main-medium from global;
+}
+
+.statusText {
+  margin: 0;
+  composes: text_type_main-default from global;
+}
+
+.create {
+  color: #F2F2F3;
+}
+
+.pending {
+  color: #F2F2F3;
+}
+
+.ready {
+  color: #0CC;
+}
+
+.cancel {
+  color: #E52B1A;
+}
+
+.componentsAndPrice {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.ingredients {
+  display: flex;
+}
+
+.item {
+  position: relative;
+  margin-right: -16px;
+}
+
+.icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid #801AB2;
+  background: #131316;
+  object-fit: cover;
+}
+
+.price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.value {  
+  composes: text_type_digits-default from global;
+}
+
+.count {
+  composes: text_type_main-default from global;
+  margin: 0;
+  position: absolute;
+  top: 22px;
+  left: 24px;
+  z-index: 2;
+}

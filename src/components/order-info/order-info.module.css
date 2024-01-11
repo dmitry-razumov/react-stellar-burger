@@ -1,0 +1,119 @@
+.order {
+  margin: 120px auto 0;
+  display: flex;
+  flex-direction: column;
+  width: 640px;
+}
+
+.order_modal {
+  margin: 0;
+}
+
+.number {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 64px;
+  margin: 0;
+  padding: 0;
+  composes: text_type_digits-default from global;
+}
+
+.number_modal {
+  justify-content: flex-start;
+}
+
+.info {
+  margin: 20px 0 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  margin: 0;
+  composes: text_type_main-medium from global;
+}
+
+.statusText {
+  margin: 0;
+  composes: text_type_main-default from global;
+}
+
+.create {
+  color: #F2F2F3;
+}
+
+.pending {
+  color: #F2F2F3;
+}
+
+.ready {
+  color: #0CC;
+}
+
+.cancel {
+  color: #E52B1A;
+}
+
+.ingredients {
+  margin: 24px 0 0;
+  padding: 0 24px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  composes: custom-scroll from global;
+  max-height: 28vh;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid #801AB2;
+  background: #131316;
+  object-fit: cover;
+}
+
+.itemName {
+  margin: 0;
+  composes: text_type_main-default from global;
+  flex-grow: 1;
+}
+
+.timeAndPrice {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  margin: 32px 0 8px;
+}
+
+.time {
+  flex-grow: 1;
+  margin: 0;
+  composes: text_type_main-default text_color_inactive from global;
+}
+
+.price {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  min-width: 192px;
+}
+
+.value {
+  margin: 0;
+  composes: text_type_digits-default from global;
+}

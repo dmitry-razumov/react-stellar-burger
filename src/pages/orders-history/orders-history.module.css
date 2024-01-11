@@ -1,8 +1,18 @@
 .orders {
+  margin: 0;
+  padding: 0 8px 0 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  width: 844px;
+  gap: 24px;
+  composes: custom-scroll from global;
+  max-height: 65vh;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+
+.link {
+  text-decoration-line: none;
 }
 
 .text {

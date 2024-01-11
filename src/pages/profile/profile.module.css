@@ -1,7 +1,6 @@
 .profile {
   display: flex;
-  /* align-items: flex-start; */
-  /* justify-content: flex-start; */
+  align-items: flex-start;
   margin: 120px auto 0;
   padding: 0;
   gap: 68px;
@@ -15,7 +14,7 @@
   margin: 0;
   padding: 0 0 0 20px;
   width: 320px;
-  composes: text_type_main-medium /*text_color_inactive*/ from global;
+  composes: text_type_main-medium from global;
 }
 
 .form {
@@ -38,7 +37,6 @@
 
 .link:hover {
   color: #4C4CFF;
-  /* border: 2px dashed var(--interface-accent, #4C4CFF); */
 }
 
 .active {
